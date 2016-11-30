@@ -151,6 +151,7 @@ class WPSC_Purchase_Log_Page {
 			<a href='<?php echo esc_url( $href ); ?>' class='prev-page <?php echo $disabled; ?>'>&lsaquo; <?php _e( 'Previous', 'wp-e-commerce' ); ?></a>
 			<?php
 
+<<<<<<< HEAD
 			$max_purchase_id = wpsc_max_purchase_id();
 			$href = "#";
 			$disabled = "disabled";
@@ -160,6 +161,112 @@ class WPSC_Purchase_Log_Page {
 			}
 			?>
 			<a href='<?php echo esc_url( $href ); ?>' class='next-page <?php echo $disabled; ?>'><?php _e( 'Next', 'wp-e-commerce' ); ?> &rsaquo;</a>
+=======
+	public function items_ordered_box() {
+		?>
+		<?php do_action( 'wpsc_purchlogitem_metabox_start', $this->log_id ); ?>
+
+		<form name="wpsc_items_ordered_form" method="post">
+			<table class="widefat" cellspacing="0">
+				<thead>
+				<tr>
+					<?php
+						print_column_headers( 'wpsc_purchase_log_item_details' );
+					 ?>
+				</tr>
+				</thead>
+
+				<tbody>
+					<?php $this->purchase_log_cart_items(); ?>
+
+					<?php if ( $this->can_edit ) : ?>
+						<tr class="wpsc_purchaselog_add_product">
+							<td colspan="<?php echo $this->cols + 2; ?>">
+								<p class="wpsc-add-row">
+									<button type="button" class="wpsc-add-item-button button"><?php esc_html_e( 'Add Item', 'wp-e-commerce' ); ?></button>
+								</p>
+							</td>
+						</tr>
+					<?php endif; ?>
+
+					<tr class="wpsc_purchaselog_start_totals" id="wpsc_discount_data">
+						<td colspan="<?php echo $this->cols; ?>">
+							<?php if ( wpsc_purchlog_has_discount_data() ): ?>
+								<?php esc_html_e( 'Coupon Code', 'wp-e-commerce' ); ?>: <?php echo wpsc_display_purchlog_discount_data(); ?>
+							<?php endif; ?>
+						</td>
+						<th class='right-col'><?php esc_html_e( 'Discount', 'wp-e-commerce' ); ?> </th>
+						<td><?php echo wpsc_display_purchlog_discount(); ?></td>
+					</tr>
+
+					<?php if ( ! wpec_display_product_tax() ): ?>
+						<tr id="wpsc_total_taxes">
+							<td colspan='<?php echo $this->cols; ?>'></td>
+							<th class='right-col'><?php esc_html_e( 'Taxes', 'wp-e-commerce' ); ?> </th>
+							<td><?php echo wpsc_display_purchlog_taxes(); ?></td>
+						</tr>
+					<?php endif; ?>
+
+					<tr id="wpsc_total_shipping">
+						<td colspan='<?php echo $this->cols; ?>'></td>
+						<th class='right-col'><?php esc_html_e( 'Shipping', 'wp-e-commerce' ); ?> </th>
+						<td><?php echo wpsc_display_purchlog_shipping( false, true ); ?></td>
+					</tr>
+					<tr id="wpsc_final_total">
+						<td colspan='<?php echo $this->cols; ?>'></td>
+						<th class='right-col'><?php esc_html_e( 'Total', 'wp-e-commerce' ); ?> </th>
+						<td><span><?php echo wpsc_display_purchlog_totalprice(); ?></span> <div class="spinner"></div></td>
+					</tr>
+
+					<?php if ( wpsc_payment_gateway_supports( $this->log->get( 'gateway' ), 'refunds' ) ) : ?>
+					<tr class="wpsc_purchaselog_refunds">
+						<td colspan="<?php echo $this->cols + 2; ?>">
+							<p class="wpsc-add-row">
+								<button type="button" class="button refund-items"><?php _e( 'Refund', 'wp-e-commerce' ); ?></button>
+							</p>
+						</td>
+					</tr>
+					<div>
+					<tr class="wpsc_purchaselog_refund">
+							<tr>
+								<td class="label"><?php _e( 'Amount already refunded', 'wp-e-commerce' ); ?>:</td>
+								<td class="total"><?php echo $this->log->get( 'total_order_refunded' );?></td>
+							</tr>
+							<?php if ( wpsc_payment_gateway_supports( $this->log->get( 'gateway' ), 'partial-refunds' ) ) : ?>
+							<tr>
+								<td class="label"><label for="refund_amount"><?php _e( 'Refund amount', 'woocommerce' ); ?>:</label></td>
+								<td class="total">
+									<input type="text" class="text" id="refund_amount" name="refund_amount" class="wc_input_price" />
+									<div class="clear"></div>
+								</td>
+							</tr>
+							<?php endif; ?>
+							<tr>
+								<td class="label"><label for="refund_reason"><?php _e( 'Reason for refund (optional)', 'wp-e-commerce' ); ?>:</label></td>
+								<td class="total">
+									<input type="text" class="text" id="refund_reason" name="refund_reason" />
+									<div class="clear"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>
+										<button type="button" class="button tips primary do-api-refund"><?php printf( __( 'Refund via %s', 'wp-e-commerce' ), $this->log->payment_method() ); ?></button>
+										<button type="button" class="button secondary button-secondary do-manual-refund tips"><?php _e( 'Manual Refund', 'wp-e-commerce' ); ?></button>
+										<button type="button" class="button cancel-action"><?php _e( 'Cancel', 'wp-e-commerce' ); ?></button>
+									</p>
+								</td>
+							</tr>
+					</tr>
+					</div>
+					<?php endif; ?>
+				</tbody>
+			</table>
+
+		</form>
+
+		<?php do_action( 'wpsc_purchlogitem_metabox_end', $this->log_id ); ?>
+>>>>>>> a81e2ba9... Refunds API + Express Checkout (#2185)
 
 		</span></span></span>
 		<?php

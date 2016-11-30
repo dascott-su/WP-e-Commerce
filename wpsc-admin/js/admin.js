@@ -157,7 +157,6 @@
 
 		return false;
 	});
-
 }(jQuery));
 
 jQuery(document).ready(function($){
