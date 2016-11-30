@@ -1,7 +1,6 @@
 <?php
 /**
  * The PayPal Express Checkout Gateway class
- *
  */
 
 class WPSC_Payment_Gateway_Paypal_Express_Checkout extends WPSC_Payment_Gateway {
@@ -1090,6 +1089,7 @@ class WPSC_Payment_Gateway_Paypal_Express_Checkout extends WPSC_Payment_Gateway 
 			$log->set( 'total_order_refunded' , $amount + $current_refund )->save();
 
 			wpsc_purchlogs_update_notes( absint( $order_id ), sprintf( __( 'Refunded %s via Manual Refund', 'wp-e-commerce' ), wpsc_currency_display( $amount ) ) );
+
 			return true;
 		}
 
@@ -1101,7 +1101,7 @@ class WPSC_Payment_Gateway_Paypal_Express_Checkout extends WPSC_Payment_Gateway 
 			'note'           => $reason,
 		);
 
-		if( $amount && $amount < $log->get_remaining_refund() ) {
+		if ( $amount && $amount < $log->get_remaining_refund() ) {
 			$options['refund_type'] = 'Partial';
 			$options['amount']      = $amount;
 		} else {

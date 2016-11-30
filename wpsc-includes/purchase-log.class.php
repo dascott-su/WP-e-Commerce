@@ -1027,4 +1027,308 @@ class WPSC_Purchase_Log {
 	public function is_refund_pending() {
 		return $this->get( 'processed' ) == self::REFUND_PENDING;
 	}
+
+	/*
+	 * Utility methods using the $purchlogitem global.. Global usage to be replaced in the future.
+	 *
+	 * TODO: seriously get rid of all these badly coded purchaselogs.functions.php functions
+	 * and wpsc_purchaselogs/wpsc_purchaselogs_items classes.
+	 */
+
+	/**
+	 * Init the purchase log items for this purchase log.
+	 *
+	 * @since  4.0
+	 *
+	 * @return wpsc_purchaselogs_items|false The purhchase log item object or false.
+	 */
+	public function init_items() {
+		global $purchlogitem;
+		if ( ! $this->exists() ) {
+			return false;
+		}
+
+		$purchlogitem = new wpsc_purchaselogs_items( $this->get( 'id' ), $this );
+	}
+
+	public function buyers_name() {
+		global $purchlogitem;
+
+		if ( null === $this->buyers_name ) {
+			$first_name = $last_name = '';
+
+			if ( isset( $purchlogitem->userinfo['billingfirstname'] ) ) {
+				$first_name = $purchlogitem->userinfo['billingfirstname']['value'];
+			}
+
+			if ( isset( $purchlogitem->userinfo['billinglastname'] ) ) {
+				$last_name = ' ' . $purchlogitem->userinfo['billinglastname']['value'];
+			}
+
+			$this->buyers_name = trim( $first_name . $last_name );
+		}
+
+		return $this->buyers_name;
+	}
+
+	public function buyers_city() {
+		global $purchlogitem;
+
+		if ( null === $this->buyers_city ) {
+			$this->buyers_city = isset( $purchlogitem->userinfo['billingcity']['value'] ) ? $purchlogitem->userinfo['billingcity']['value'] : '';
+		}
+
+		return $this->buyers_city;
+	}
+
+	public function buyers_email() {
+		global $purchlogitem;
+
+		if ( null === $this->buyers_email ) {
+			$this->buyers_email = isset( $purchlogitem->userinfo['billingemail']['value'] ) ? $purchlogitem->userinfo['billingemail']['value'] : '';
+		}
+
+		return $this->buyers_email;
+	}
+
+	public function buyers_address() {
+		global $purchlogitem;
+
+		if ( null === $this->buyers_address ) {
+			$this->buyers_address = isset( $purchlogitem->userinfo['billingaddress']['value'] ) ? nl2br( esc_html( $purchlogitem->userinfo['billingaddress']['value'] ) ) : '';
+		}
+
+		return $this->buyers_address;
+	}
+
+	public function buyers_state_and_postcode() {
+		global $purchlogitem;
+
+		if ( null === $this->buyers_state_and_postcode ) {
+
+			if ( is_numeric( $this->get( 'billing_region' ) ) ) {
+				$state = wpsc_get_region( $this->get( 'billing_region' ) );
+			} else {
+				$state = $purchlogitem->userinfo['billingstate']['value'];
+				$state = is_numeric( $state ) ? wpsc_get_region( $state ) : $state;
+			}
+
+			$output = esc_html( $state );
+
+			if ( isset( $purchlogitem->userinfo['billingpostcode']['value'] ) && ! empty( $purchlogitem->userinfo['billingpostcode']['value'] ) ) {
+				if ( $output ) {
+					$output .= ', '; // TODO determine if it's ok to make this a space only (like shipping_state_and_postcode)
+				}
+				$output .= $purchlogitem->userinfo['billingpostcode']['value'];
+			}
+
+			$this->buyers_state_and_postcode = $output;
+		}
+
+		return $this->buyers_state_and_postcode;
+	}
+
+	public function buyers_country() {
+		global $purchlogitem;
+
+		if ( null === $this->buyers_country ) {
+			$this->buyers_country = isset( $purchlogitem->userinfo['billingcountry']['value'] ) ? wpsc_get_country( $purchlogitem->userinfo['billingcountry']['value'] ) : '';
+		}
+
+		return $this->buyers_country;
+	}
+
+	public function buyers_phone() {
+		global $purchlogitem;
+
+		if ( null === $this->buyers_phone ) {
+			$this->buyers_phone = isset( $purchlogitem->userinfo['billingphone']['value'] ) ? $purchlogitem->userinfo['billingphone']['value'] : '';
+		}
+
+		return $this->buyers_phone;
+	}
+
+	public function shipping_name() {
+		global $purchlogitem;
+
+		if ( null === $this->shipping_name ) {
+			$this->shipping_name = isset( $purchlogitem->shippinginfo['shippingfirstname']['value'] ) ? $purchlogitem->shippinginfo['shippingfirstname']['value'] : '';
+
+			if ( isset( $purchlogitem->shippinginfo['shippinglastname']['value'] ) ) {
+				$this->shipping_name .= ' ' . $purchlogitem->shippinginfo['shippinglastname']['value'];
+			}
+		}
+
+		return $this->shipping_name;
+	}
+
+	public function shipping_city() {
+		global $purchlogitem;
+
+		if ( null === $this->shipping_city ) {
+			$this->shipping_city = isset( $purchlogitem->shippinginfo['shippingcity']['value'] ) ? $purchlogitem->shippinginfo['shippingcity']['value'] : '';
+		}
+
+		return $this->shipping_city;
+	}
+
+	public function shipping_address() {
+		global $purchlogitem;
+
+		if ( null === $this->shipping_address ) {
+			$this->shipping_address = isset( $purchlogitem->shippinginfo['shippingaddress']['value'] ) ? nl2br( esc_html( $purchlogitem->shippinginfo['shippingaddress']['value'] ) ) : '';
+		}
+
+		return $this->shipping_address;
+	}
+
+	public function shipping_state_and_postcode() {
+		global $purchlogitem;
+
+		if ( null === $this->shipping_state_and_postcode ) {
+			if ( is_numeric( $this->get( 'shipping_region' ) ) ) {
+				$output = wpsc_get_region( $this->get( 'shipping_region' ) );
+			} else {
+				$state = $purchlogitem->shippinginfo['shippingstate']['value'];
+				$output = is_numeric( $state ) ? wpsc_get_region( $state ) : $state;
+			}
+
+			if ( !empty( $purchlogitem->shippinginfo['shippingpostcode']['value'] ) ){
+				if ( $output ) {
+					$output .= ' ';
+				}
+
+				$output .= $purchlogitem->shippinginfo['shippingpostcode']['value'];
+			}
+
+			$this->shipping_state_and_postcode = $output;
+		}
+
+		return $this->shipping_state_and_postcode;
+	}
+
+	public function shipping_country() {
+		global $purchlogitem;
+
+		if ( null === $this->shipping_country ) {
+			$this->shipping_country = isset( $purchlogitem->shippinginfo['shippingcountry'] )
+				? wpsc_get_country( $purchlogitem->shippinginfo['shippingcountry']['value'] )
+				: '';
+		}
+
+		return $this->shipping_country;
+	}
+
+	public function payment_method() {
+		global $nzshpcrt_gateways;
+
+		if ( null === $this->payment_method ) {
+			if ( 'wpsc_merchant_testmode' == $this->get( 'gateway' ) ) {
+				$this->payment_method = __( 'Manual Payment', 'wp-e-commerce' );
+			} else {
+				foreach ( (array) $nzshpcrt_gateways as $gateway ) {
+					if ( isset( $gateway['internalname'] ) && $gateway['internalname'] == $this->get( 'gateway' ) ) {
+						$this->payment_method = $gateway['name'];
+					}
+				}
+
+				if ( ! $this->payment_method ) {
+					$this->payment_method = $this->get( 'gateway' );
+				}
+			}
+		}
+
+		return $this->payment_method;
+	}
+
+	public function shipping_method() {
+		global $wpsc_shipping_modules;
+
+		if ( null === $this->shipping_method ) {
+
+			if ( ! empty( $wpsc_shipping_modules[ $this->get( 'shipping_method' ) ] ) ) {
+				$this->shipping_method = $wpsc_shipping_modules[ $this->get( 'shipping_method' ) ]->getName();
+			} else {
+				$this->shipping_method = $this->get( 'shipping_method' );
+			}
+		}
+
+		return $this->shipping_method;
+	}
+
+	/**
+	 * Returns base shipping should make a function to calculate items shipping as well
+	 *
+	 * @since  4.0
+	 *
+	 * @param  boolean $numeric Return numeric value.
+	 *
+	 * @return mixed
+	 */
+	public function discount( $numeric = false ) {
+		$discount = $this->get( 'discount_value' );
+		if ( ! $numeric ) {
+			$discount = wpsc_currency_display( $discount, array( 'display_as_html' => false ) );
+		}
+
+		return $discount;
+	}
+
+	/**
+	 * Returns base shipping should make a function to calculate items shipping as well
+	 *
+	 * @since  4.0
+	 *
+	 * @param  boolean $numeric       Return numeric value.
+	 * @param  boolean $include_items Whether to calculate per-item-shipping.
+	 *
+	 * @return mixed
+	 */
+	public function shipping( $numeric = false, $include_items = false ) {
+		$total_shipping = $this->get( 'base_shipping' );
+
+		if ( $include_items ) {
+			$total_shipping = $this->meta_data['total_shipping'];
+		}
+
+		if ( ! $numeric ) {
+			$total_shipping = wpsc_currency_display( $total_shipping, array( 'display_as_html' => false ) );
+		}
+
+		return $total_shipping;
+	}
+
+	/**
+	 * Returns taxes total.
+	 *
+	 * @since  4.0
+	 *
+	 * @param  boolean $numeric Return numeric value.
+	 *
+	 * @return mixed
+	 */
+	public function taxes( $numeric = false ) {
+		$taxes = $this->get( 'wpec_taxes_total' );
+
+		if ( ! $numeric ) {
+			$taxes = wpsc_currency_display( $taxes, array( 'display_as_html' => false ) );
+		}
+
+		return $taxes;
+	}
+
+	public function total_price() {
+		global $purchlogitem;
+
+		$total = $purchlogitem->totalAmount - $this->discount( true ) + $this->shipping( true ) + $this->taxes( true );
+		return wpsc_currency_display( $total, array( 'display_as_html' => false ) );
+	}
+
+	public function get_total_refunded() {
+		return empty( $this->get( 'total_order_refunded' ) ) ? '0.00' : $this->get( 'total_order_refunded' );
+	}
+
+	public function get_remaining_refund() {
+		return $this->get( 'totalprice' ) - $this->get_total_refunded();
+	}
 }
