@@ -71,9 +71,11 @@
 	};
 
 	admin.refund_item = function() {
-		var $this = $( this );
+		var $this      = $( this );
+		var api_refund = $this.is( '.do-api-refund' );
+		var refund_string = api_refund ? wpsc.strings.confirm_refund_order : wpsc.strings.confirm_refund_order_manually;
 
-		if ( ! window.confirm( wpsc.strings.confirm_refund_order ) ) {
+		if ( ! window.confirm( refund_string ) ) {
 			return;
 		}
 
@@ -85,7 +87,7 @@
 			order_id      : wpsc.log_id,
 			refund_reason : refund_reason,
 			refund_amount : refund_amount,
-			api_refund    : $this.is( '.do-api-refund' ),
+			api_refund    : api_refund,
 			nonce         : wpsc.purchase_log_refund_items_nonce
 		};
 
@@ -442,8 +444,14 @@
 			}
 		},
 
+<<<<<<< HEAD
 		event_button_send_email_clicked : function() {
 			var t = $(this);
+=======
+			$c.notes.find( '.wpsc-notes' ).prepend( response.obj );
+			$c.notesText.val( '' );
+		};
+>>>>>>> d0ff9ed7... Sales Log UI improvements.
 
 			var post_data = {
 				'action' : 'purchase_log_send_tracking_email',
