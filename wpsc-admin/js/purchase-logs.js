@@ -59,7 +59,7 @@
 				.on( 'click', '.edit-log-details', admin.toggleEditDetails );
 
 			$c.notes
-				.on( 'submit' , '#note-submit-form'       , admin.addNote
+				.on( 'submit' , '#note-submit-form'       , admin.addNote )
 				.on( 'keydown', '#note-submit-form'       , admin.commandEnterAddNote )
 				.on( 'click'  , '.wpsc-remove-note-button', admin.deleteNote );
 
@@ -400,7 +400,7 @@
 	};
 
 	admin.commandEnterAddNote = function( evt ) {
-		if ( evt.metaKey || evt.ctrlKey ) &&  evt.keyCode == 13 ) {
+		if ( ( evt.metaKey || evt.ctrlKey ) &&  evt.keyCode === 13 ) {
 			admin.addNote( evt );
 		}
 	};
