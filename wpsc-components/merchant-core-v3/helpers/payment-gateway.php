@@ -18,17 +18,19 @@ function wpsc_get_payment_gateway( $gateway ) {
 
 function wpsc_payment_gateway_supports( $gateway, $supports ) {
 
-	$support = false;
-	$gateway  = wpsc_get_payment_gateway( $gateway );
-
-	if ( is_subclass_of( $gateway, 'WPSC_Payment_Gateway' ) ) {
-		$support = $gateway->supports( $supports );
+	if ( ! wpsc_is_payment_gateway_registered( $gateway ) ) {
+		return false;
 	}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 	return $supports;
 }
 =======
+=======
+	$support = $gateway->supports( $supports );
+
+>>>>>>> 3a7a7542... Update docs and data type for WPSC_Payment_Gateways::get().
 	return $support;
 }
 >>>>>>> 389d1b93... Add spinner feedback to refund UI.
