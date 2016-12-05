@@ -77,6 +77,7 @@
 
 	admin.refundItem = function() {
 		var $this      = $( this );
+		var $spinner   = $this.siblings('.ajax-feedback');
 		var api_refund = $this.is( '.do-api-refund' );
 		var refund_string = api_refund ? wpsc.strings.confirm_refund_order : wpsc.strings.confirm_refund_order_manually;
 
@@ -96,7 +97,9 @@
 			nonce         : wpsc.purchase_log_refund_items_nonce
 		};
 
-		var ajax_callback = function(response) {
+		var ajax_callback = function( response ) {
+			$spinner.toggleClass( 'ajax-feedback-active' );
+
 			if ( ! response.is_successful ) {
 				if ( response.error ) {
 					window.alert( response.error.messages.join( BR ) );
@@ -106,6 +109,8 @@
 			}
 			window.location.href = window.location.href;
 		};
+
+		$spinner.toggleClass( 'ajax-feedback-active' );
 
 		$.wpsc_post( data, ajax_callback );
 	};
