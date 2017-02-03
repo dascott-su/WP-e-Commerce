@@ -4,7 +4,7 @@
 		blur_timeout : null,
 		reset_textbox_width : true,
 		$ : $c
-	};
+	});
 
 	admin.cache = function() {
 		$c.body           = $( document.body );
