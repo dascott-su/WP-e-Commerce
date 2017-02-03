@@ -356,9 +356,7 @@ class WPSC_Purchase_Log_Page {
 		</tr>
 		<?php
 		do_action( 'wpsc_additional_sales_item_info', wpsc_purchaselog_details_id() );
-<<<<<<< HEAD
 		endwhile;
-=======
 	}
 
 	public function notes_output() {
@@ -420,7 +418,6 @@ class WPSC_Purchase_Log_Page {
 			<strong><?php esc_html_e( 'How User Found Us:', 'wp-e-commerce' ); ?> </strong><?php echo wpsc_display_purchlog_howtheyfoundus(); ?><br />
 		<?php endif; ?>
 		<?php
->>>>>>> d0ff9ed7... Sales Log UI improvements.
 	}
 
 	public function controller_item_details() {

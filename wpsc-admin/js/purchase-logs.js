@@ -444,14 +444,12 @@
 			}
 		},
 
-<<<<<<< HEAD
 		event_button_send_email_clicked : function() {
 			var t = $(this);
-=======
+
 			$c.notes.find( '.wpsc-notes' ).prepend( response.obj );
 			$c.notesText.val( '' );
 		};
->>>>>>> d0ff9ed7... Sales Log UI improvements.
 
 			var post_data = {
 				'action' : 'purchase_log_send_tracking_email',
