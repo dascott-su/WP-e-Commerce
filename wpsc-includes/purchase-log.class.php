@@ -1027,8 +1027,6 @@ class WPSC_Purchase_Log {
 	public function is_refund_pending() {
 		return $this->get( 'processed' ) == self::REFUND_PENDING;
 	}
-<<<<<<< HEAD
-=======
 
 	/*
 	 * Utility methods using the $purchlogitem global.. Global usage to be replaced in the future.
@@ -1333,6 +1331,4 @@ class WPSC_Purchase_Log {
 	public function get_remaining_refund() {
 		return $this->get( 'totalprice' ) - $this->get( 'total_order_refunded' );
 	}
-
->>>>>>> a81e2ba9... Refunds API + Express Checkout (#2185)
 }

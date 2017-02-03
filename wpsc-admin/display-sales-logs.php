@@ -151,7 +151,6 @@ class WPSC_Purchase_Log_Page {
 			<a href='<?php echo esc_url( $href ); ?>' class='prev-page <?php echo $disabled; ?>'>&lsaquo; <?php _e( 'Previous', 'wp-e-commerce' ); ?></a>
 			<?php
 
-<<<<<<< HEAD
 			$max_purchase_id = wpsc_max_purchase_id();
 			$href = "#";
 			$disabled = "disabled";
@@ -160,8 +159,10 @@ class WPSC_Purchase_Log_Page {
 				$disabled = '';
 			}
 			?>
-			<a href='<?php echo esc_url( $href ); ?>' class='next-page <?php echo $disabled; ?>'><?php _e( 'Next', 'wp-e-commerce' ); ?> &rsaquo;</a>
-=======
+		</span></span></span>
+		<?php
+	}
+	
 	public function items_ordered_box() {
 		?>
 		<?php do_action( 'wpsc_purchlogitem_metabox_start', $this->log_id ); ?>

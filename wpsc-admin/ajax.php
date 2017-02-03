@@ -1,6 +1,4 @@
 <?php
-<<<<<<< HEAD
-=======
 function _wpsc_ajax_purchase_log_refund_items() {
 	if ( isset( $_POST['order_id'] ) ) {
 
@@ -66,7 +64,6 @@ function _wpsc_ajax_purchase_log_refund_items() {
 	}
 	return new WP_Error( 'wpsc_ajax_invalid_purchase_log_refund_items', __( 'Refund failed.', 'wp-e-commerce' ) );
 }
->>>>>>> a81e2ba9... Refunds API + Express Checkout (#2185)
 
 /**
  * Verify nonce of an AJAX request

@@ -3,8 +3,6 @@
 	$.extend(WPSC_Purchase_Logs_Admin, {
 		blur_timeout : null,
 		reset_textbox_width : true,
-<<<<<<< HEAD
-=======
 		$ : $c
 	};
 
@@ -413,7 +411,6 @@
 
 		var ajax_callback = function(response) {
 			$c.notes.find( '.spinner' ).removeClass( 'is-active' );
->>>>>>> a81e2ba9... Refunds API + Express Checkout (#2185)
 
 		init : function() {
 			$(function(){

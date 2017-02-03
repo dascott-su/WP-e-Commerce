@@ -638,8 +638,6 @@ abstract class WPSC_Payment_Gateway {
 	 * @return void
 	 */
 	public function init() {}
-<<<<<<< HEAD
-=======
 
 	/**
 	 * Process refund
@@ -658,7 +656,6 @@ abstract class WPSC_Payment_Gateway {
 	public function process_refund( $order_id, $amount = 0.00, $reason = '', $manual = false ) {
 		return false;
 	}
->>>>>>> a81e2ba9... Refunds API + Express Checkout (#2185)
 }
 
 class WPSC_Payment_Gateway_Setting {
