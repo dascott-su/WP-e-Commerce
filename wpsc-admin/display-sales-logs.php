@@ -218,24 +218,26 @@ class WPSC_Purchase_Log_Page {
 					</tr>
 
 					<?php if ( wpsc_payment_gateway_supports( $this->log->get( 'gateway' ), 'refunds' ) ) : ?>
-					<tr class="wpsc_purchaselog_refunds">
+					<tr>
 						<td colspan="<?php echo $this->cols + 2; ?>">
 							<p class="wpsc-add-row">
 								<button type="button" class="button refund-items"><?php _e( 'Refund', 'wp-e-commerce' ); ?></button>
 							</p>
 						</td>
 					</tr>
-					<div>
-					<tr class="wpsc_purchaselog_refund">
+					<tr class="wpsc-refund-ui">
+						<td colspan="<?php echo $this->cols + 2; ?>">
+							<table>
+							<tbody>
 							<tr>
 								<td class="label"><?php _e( 'Amount already refunded', 'wp-e-commerce' ); ?>:</td>
-								<td class="total"><?php echo $this->log->get( 'total_order_refunded' );?></td>
+								<td class="total"><?php echo wpsc_currency_display( $this->log->get_total_refunded() );?></td>
 							</tr>
 							<?php if ( wpsc_payment_gateway_supports( $this->log->get( 'gateway' ), 'partial-refunds' ) ) : ?>
 							<tr>
-								<td class="label"><label for="refund_amount"><?php _e( 'Refund amount', 'woocommerce' ); ?>:</label></td>
+								<td class="label"><label for="refund_amount"><?php _e( 'Refund amount', 'wp-e-commerce' ); ?>:</label></td>
 								<td class="total">
-									<input type="text" class="text" id="refund_amount" name="refund_amount" class="wc_input_price" />
+									<input type="text" class="text" id="refund_amount" name="refund_amount" class="wpec_input_price" />
 									<div class="clear"></div>
 								</td>
 							</tr>
@@ -250,14 +252,16 @@ class WPSC_Purchase_Log_Page {
 							<tr>
 								<td>
 									<p>
-										<button type="button" class="button tips primary do-api-refund"><?php printf( __( 'Refund via %s', 'wp-e-commerce' ), $this->log->payment_method() ); ?></button>
-										<button type="button" class="button secondary button-secondary do-manual-refund tips"><?php _e( 'Manual Refund', 'wp-e-commerce' ); ?></button>
-										<button type="button" class="button cancel-action"><?php _e( 'Cancel', 'wp-e-commerce' ); ?></button>
+										<button type="button" class="button tips button-primary do-api-refund"><?php printf( __( 'Refund via %s', 'wp-e-commerce' ), wpsc_get_payment_gateway( $this->log->get( 'gateway' ) )->get_title() ); ?></button>
+										<img src="<?php echo esc_url( wpsc_get_ajax_spinner() ); ?>" class="ajax-feedback" title="" alt="" />
+										<button type="button" class="button button-secondary do-manual-refund tips"><?php _e( 'Manual Refund', 'wp-e-commerce' ); ?></button>
+										<img src="<?php echo esc_url( wpsc_get_ajax_spinner() ); ?>" class="ajax-feedback" title="" alt="" /><br class="clear" />
 									</p>
 								</td>
-							</tr>
+							</tbody>
+						</table>
+					</td>
 					</tr>
-					</div>
 					<?php endif; ?>
 				</tbody>
 			</table>
@@ -355,6 +359,67 @@ class WPSC_Purchase_Log_Page {
 		<?php
 		do_action( 'wpsc_additional_sales_item_info', wpsc_purchaselog_details_id() );
 		endwhile;
+	}
+
+	public function notes_output() {
+
+		foreach ( $this->notes as $note_id => $note_args ) : ?>
+			<?php self::note_output( $this->notes, $note_id, $note_args ); ?>
+		<?php endforeach;
+	}
+
+	public static function note_output( WPSC_Purchase_Log_Notes $notes, $note_id, array $note_args ) {
+		?>
+		<div class="wpsc-note" id="wpsc-note-<?php echo absint( $note_id ); ?>" data-id="<?php echo absint( $note_id ); ?>">
+			<p>
+				<strong class="note-date"><?php echo $notes->get_formatted_date( $note_args ); ?></strong>
+				<a href="#wpsc-note-<?php echo absint( $note_id ); ?>" class="note-number">#<?php echo ( $note_id ); ?></a>
+				<a href="<?php echo wp_nonce_url( add_query_arg( 'note', absint( $note_id ) ), 'delete-note', 'delete-note' ); ?>" class="wpsc-remove-button wpsc-remove-note-button"><span class="dashicons dashicons-dismiss"></span> <?php esc_html_e( 'Delete Note', 'wp-e-commerce' ); ?></a>
+			</p>
+			<div class="wpsc-note-content">
+				<?php echo wpautop( $note_args['content'] ); ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	public static function shipping_address_output() {
+		?>
+		<strong>
+			<?php echo ( wpsc_display_purchlog_shipping_name() != ""           ) ? wpsc_display_purchlog_shipping_name() . "<br />"               : '<span class="field-blank">' . __( 'Anonymous', 'wp-e-commerce' ) . '</span>' ; ?>
+		</strong>
+		<?php echo ( wpsc_display_purchlog_shipping_address() != ""            ) ? wpsc_display_purchlog_shipping_address() . "<br />"            : '' ; ?>
+		<?php echo ( wpsc_display_purchlog_shipping_city() != ""               ) ? wpsc_display_purchlog_shipping_city() . ", "               : '' ; ?>
+		<?php echo ( wpsc_display_purchlog_shipping_state_and_postcode() != "" ) ? wpsc_display_purchlog_shipping_state_and_postcode() . "<br />" : '' ; ?>
+		<?php echo ( wpsc_display_purchlog_shipping_country() != ""            ) ? wpsc_display_purchlog_shipping_country() . "<br />"            : '<span class="field-blank">' . __( 'Country not specified', 'wp-e-commerce' ) . '</span>' ; ?>
+		<?php
+	}
+
+	public static function billing_address_output() {
+		?>
+		<strong>
+			<?php echo ( wpsc_display_purchlog_buyers_name() != ""           ) ? wpsc_display_purchlog_buyers_name() . "<br />"               : '<span class="field-blank">' . __( 'Anonymous', 'wp-e-commerce' ) . '</span>' ; ?>
+		</strong>
+		<?php echo ( wpsc_display_purchlog_buyers_address() != ""            ) ? wpsc_display_purchlog_buyers_address() . "<br />"            : '' ; ?>
+		<?php echo ( wpsc_display_purchlog_buyers_city() != ""               ) ? wpsc_display_purchlog_buyers_city() . ", "               : '' ; ?>
+		<?php echo ( wpsc_display_purchlog_buyers_state_and_postcode() != "" ) ? wpsc_display_purchlog_buyers_state_and_postcode() . "<br />" : '' ; ?>
+		<?php echo ( wpsc_display_purchlog_buyers_country() != ""            ) ? wpsc_display_purchlog_buyers_country() . "<br />"            : '<span class="field-blank">' . __( 'Country not specified', 'wp-e-commerce' ) . '</span>' ; ?>
+		<?php
+	}
+
+	public static function payment_details_output() {
+		?>
+		<strong><?php esc_html_e( 'Phone:', 'wp-e-commerce' ); ?> </strong><?php echo ( wpsc_display_purchlog_buyers_phone() != "" ) ? wpsc_display_purchlog_buyers_phone() : __( '<em class="field-blank">not provided</em>', 'wp-e-commerce' ); ?><br />
+		<strong><?php esc_html_e( 'Email:', 'wp-e-commerce' ); ?> </strong>
+			<a href="mailto:<?php echo wpsc_display_purchlog_buyers_email(); ?>?subject=<?php echo rawurlencode( sprintf( __( 'Message from %s', 'wp-e-commerce' ), site_url() ) ); ?>">
+				<?php echo ( wpsc_display_purchlog_buyers_email() != "" ) ? wpsc_display_purchlog_buyers_email() : __( '<em class="field-blank">not provided</em>', 'wp-e-commerce' ); ?>
+			</a>
+		<br />
+		<strong><?php esc_html_e( 'Payment Method:', 'wp-e-commerce' ); ?> </strong><?php echo wpsc_display_purchlog_paymentmethod(); ?><br />
+		<?php if ( wpsc_display_purchlog_display_howtheyfoundus() ) : ?>
+			<strong><?php esc_html_e( 'How User Found Us:', 'wp-e-commerce' ); ?> </strong><?php echo wpsc_display_purchlog_howtheyfoundus(); ?><br />
+		<?php endif; ?>
+		<?php
 	}
 
 	public function controller_item_details() {

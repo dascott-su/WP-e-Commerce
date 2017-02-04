@@ -21,7 +21,6 @@ function _wpsc_ajax_purchase_log_refund_items() {
 
 		try {
 			// Validate that the refund can occur
-			$order_items    = $log->get_items();
 			$refund_amount  = $refund_amount ? $refund_amount : $log->get( 'totalprice' );
 
 			if ( wpsc_payment_gateway_supports( $gateway_id, 'refunds' ) ) {

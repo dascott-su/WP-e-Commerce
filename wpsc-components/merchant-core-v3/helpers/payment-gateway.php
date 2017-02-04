@@ -15,3 +15,12 @@ function wpsc_is_payment_gateway_registered( $gateway ) {
 function wpsc_get_payment_gateway( $gateway ) {
 	return WPSC_Payment_Gateways::get( $gateway );
 }
+
+function wpsc_payment_gateway_supports( $gateway, $supports ) {
+
+	if ( ! wpsc_is_payment_gateway_registered( $gateway ) ) {
+		return false;
+	}
+
+	return wpsc_get_payment_gateway( $gateway )->supports( $supports );
+}
