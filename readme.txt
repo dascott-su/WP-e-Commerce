@@ -3,7 +3,7 @@ Contributors: JustinSainton
 Donate link: https://wpecommerce.org
 Tags: e-commerce, digital downloads, wp-e-commerce, shop, cart, paypal, authorize, stock control, ecommerce, shipping, tax
 Requires at least: 4.1
-Tested up to: 4.7
+Tested up to: 4.7.2
 Stable tag: 3.11.4
 
 WP eCommerce is a free, powerful plugin that empowers you to sell anything online, quickly and easily.
@@ -14,13 +14,13 @@ Since 2006, we've been helping entrepreneurs just like you realize their goal of
 
  * Make the plugin your own with CSS and HTML customizations
  * Learn quickly with our [video tutorials](http://docs.wpecommerce.org/category/resources/videos/)
- * Integration with [dozens of different payment gateways](http://wpecommerce.org/store/premium-plugins/)
+ * Integration with [dozens of different payment gateways](https://wpecommerce.org/store/)
  * Integrate with many popular WordPress plugins
  * Use built-in marketing tools to sell more
  * Shipping is easy with built in shipping tools and integration with popular couriers
  * Secure check-out with SSL
  * Manage your orders and catalogues with powerful built-in tools
- * Extend your eCommerce site with [additional modules](http://wpecommerce.org/store/premium-plugins/)
+ * Extend your eCommerce site with [additional modules](https://wpecommerce.org/store/)
  * Integrate with WordPress multisite
  * With hundreds of available hooks, developers can make WP eCommerce do anything you can imagine
 
@@ -857,7 +857,7 @@ For advanced users, all of our eCommerce templates and CSS can be moved into you
 
 = What payment gateways does WP eCommerce integrate with? =
 
-Our [Gold Cart plugin](https://wpecommerce.org/store/premium-plugins/gold-cart/) contains nearly a dozen payment gateway options, including Authorize.net, LinkPoint and DPS.  Our [Mirijeh integration plugin](https://wpecommerce.org/store/premium-plugins/mijireh-99-payment-gateways-pack/) provides access to nearly one hundred different gateway options.  Beyond that, we have individual integration plugins for [Braintree](https://wpecommerce.org/store/premium-plugins/braintree-payment-gateway/), [Stripe](https://wpecommerce.org/store/premium-plugins/stripe/), [Authorize.net SIM](https://wpecommerce.org/store/premium-plugins/authorize-net-sim-payment-gateway-for-wordpress/) and more.
+Our [Gold Cart plugin](https://wpecommerce.org/store/product/gold-cart/) contains nearly a dozen payment gateway options, including Authorize.net, LinkPoint and DPS.  Our [Mirijeh integration plugin](https://wpecommerce.org/store/product/mijireh-99-payment-gateways-pack/) provides access to nearly one hundred different gateway options.  Beyond that, we have individual integration plugins for [Braintree](https://wpecommerce.org/store/product/braintree-payment-gateway/), [Stripe](https://wpecommerce.org/store/product/stripe-payments/), [Authorize.net SIM](https://wpecommerce.org/store/product/authorize-net-sim-payment-gateway/) and more.
 
 = I want to integrate a payment gateway that you don't support. Can you help with that? =
 
@@ -867,7 +867,7 @@ Absolutely!  We have a [growing list of trusted consultants](https://wpecommerce
 
 We have table rate, weight rate and flat rate shipping calculators.
 
-We also currently integrate with UPS, USPS, Australia Post and Shipwire for real-time shipping rates.  We have a premium plugin for [FedEx](https://wpecommerce.org/store/premium-plugins/fedex-shipping-module/) as well.
+We also currently integrate with UPS, USPS, Australia Post and Shipwire for real-time shipping rates.  We have a premium plugin for [FedEx](https://wpecommerce.org/store/product/fedex-shipping-module/) as well.
 
 = Which multi-lingual plugins is WP eCommerce compatible with? =
 
@@ -876,13 +876,12 @@ We currently provide basic support for WPML and qTranslate.  We're excited about
 = Which additional modules are available for use with WP eCommerce? =
 
 * [Gold Cart](https://wpecommerce.org/store/premium-plugins/gold-cart/) - adds more options, gateways and functionality to your store
-* [MP3 Audio Player](https://wpecommerce.org/store/premium-plugins/mp3-player-plugin/) - Preview audio clips on your website
-* [NextGen Gallery Buy Now Buttons](https://wpecommerce.org/store/premium-plugins/nextgen-gallery-buy-now-buttons/) - turns your NextGen gallery into an eCommerce solution
-* [Members Plugin](https://wpecommerce.org/store/premium-plugins/membership-subscriptions/) - Integrates with PayPal Standard and Authorize.Net, allows you to create a Subscription-Based Product, as well as a "Members-Only" website with paid access to restricted content.
+* [Stripe](https://wpecommerce.org/store/product/stripe-payments/) - Allows you to take payments on your website using Stripe.
+* [Members Plugin](https://wpecommerce.org/store/product/membership-subscriptions/) - Integrates with PayPal Standard and Authorize.Net, allows you to create a Subscription-Based Product, as well as a "Members-Only" website with paid access to restricted content.
 
 = How do you provide support? =
 
-For users who have purchased a premium plugin from us (or a have purchased a [premium support token](https://wpecommerce.org/store/premium-plugins/premium-support-token/)), we offer high-touch, 1-on-1 support from our trained support staff.  If you submit a support request here, you'll get a helpful response within 24 hours or less (during business hours).
+For users who have purchased a premium plugin from us and have an active License key we offer high-touch support from our trained support staff.  If you submit a support request [here](https://wpecommerce.org/support/), you'll get a helpful response within 24 hours or less (during business hours).
 
 For the rest of our users, we do our best to monitor the WordPress.org support forums and respond in as timely a manner as we are able.  We appreciate the countless helpful volunteers who also take time to respond to forum posts here.
 
