@@ -146,7 +146,7 @@ class WPSC_Purchase_Log_Page {
 				$href = $this->get_purchase_log_url( ( $this->log_id - 1 ) );
 				$disabled = '';
 			}
-			
+
 			?>
 			<a href='<?php echo esc_url( $href ); ?>' class='prev-page <?php echo $disabled; ?>'>&lsaquo; <?php _e( 'Previous', 'wp-e-commerce' ); ?></a>
 			<?php
@@ -159,10 +159,10 @@ class WPSC_Purchase_Log_Page {
 				$disabled = '';
 			}
 			?>
-		</span></span></span>
-		<?php
+			<a href='<?php echo esc_url( $href ); ?>' class='next-page <?php echo $disabled; ?>'><?php _e( 'Next', 'wp-e-commerce' ); ?> &rsaquo;</a>
+			<?php
 	}
-	
+
 	public function items_ordered_box() {
 		?>
 		<?php do_action( 'wpsc_purchlogitem_metabox_start', $this->log_id ); ?>
@@ -171,9 +171,7 @@ class WPSC_Purchase_Log_Page {
 			<table class="widefat" cellspacing="0">
 				<thead>
 				<tr>
-					<?php
-						print_column_headers( 'wpsc_purchase_log_item_details' );
-					 ?>
+					<?php print_column_headers( 'wpsc_purchase_log_item_details' ); ?>
 				</tr>
 				</thead>
 
@@ -271,7 +269,6 @@ class WPSC_Purchase_Log_Page {
 		</form>
 
 		<?php do_action( 'wpsc_purchlogitem_metabox_end', $this->log_id ); ?>
->>>>>>> a81e2ba9... Refunds API + Express Checkout (#2185)
 
 		</span></span></span>
 		<?php

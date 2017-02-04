@@ -12,9 +12,10 @@ function _wpsc_ajax_purchase_log_refund_items() {
 		$refund_reason          = isset( $_POST['refund_reason'] ) ? sanitize_text_field( $_POST['refund_reason'] ) : '';
 		$refund_amount          = isset( $_POST['refund_amount'] ) ? sanitize_text_field( $_POST['refund_amount'] ) : false;
 		$manual                 = $_POST['api_refund'] === 'true' ? false : true;
+		$refund                 = false;
 		$response_data          = array();
 
-		$log                    = new WPSC_Purchase_Log( $order_id );
+		$log            = new WPSC_Purchase_Log( $order_id );
 		$gateway_id             = $log->get( 'gateway' );
 		$gateway                = wpsc_get_payment_gateway( $gateway_id );
 
@@ -44,15 +45,15 @@ function _wpsc_ajax_purchase_log_refund_items() {
 				do_action( 'wpsc_order_partially_refunded', $log );
 				$response_data['status'] = 'partially_refunded';
 
-			} else {
-				/**
-				 * wpsc_order_fully_refunded.
-				 *
-				 * @since 4.0.0
-				 */
-				do_action( 'wpsc_order_fully_refunded', $log );
-				$response_data['status'] = 'fully_refunded';
-			}
+		} else {
+			/**
+			 * wpsc_order_fully_refunded.
+			 *
+			 * @since 4.0.0
+			 */
+			do_action( 'wpsc_order_fully_refunded', $log );
+			$response_data['status'] = 'fully_refunded';
+		}
 
 			wp_send_json_success( $response_data );
 

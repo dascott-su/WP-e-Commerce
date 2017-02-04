@@ -668,7 +668,7 @@ abstract class WPSC_Payment_Gateway {
 	 * @param  string  $reason
 	 * @param  boolean $manual If refund is a manual refund.
 	 *
-	 * @since 4.0.0
+	 * @since 3.11.5
 	 * @return bool|WP_Error True or false based on success, or a WP_Error object
 	 */
 	public function process_refund( $order_id, $amount = 0.00, $reason = '', $manual = false ) {
