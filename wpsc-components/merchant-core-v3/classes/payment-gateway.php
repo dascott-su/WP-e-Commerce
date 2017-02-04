@@ -68,15 +68,7 @@ final class WPSC_Payment_Gateways {
 
 		if ( empty( self::$instances[ $gateway ] ) ) {
 
-			// If no meta is found, it is likely that a legacy or unsupported gateway is being used, and we should exit early.
-			if ( ! isset( self::$gateways[ $gateway ] ) ) {
-				$errors->add( 'unregistered_gateway', __( 'The gateway used is out of date. We recommend no longer using this gateway.', 'wp-e-commerce' ) );
-				return $errors;
-			}
-
-			if ( ! $meta ) {
-				$meta = self::$gateways[ $gateway ];
-			}
+			$meta = self::$gateways[ $gateway ];
 
 			if ( ! file_exists( $meta['path'] ) ) {
 				WPSC_Payment_Gateways::flush_cache();
@@ -197,7 +189,8 @@ final class WPSC_Payment_Gateways {
 			$return = self::register_file( $path );
 
 			if ( is_wp_error( $return ) ) {
-				return $return;
+				// Will log in future iteration
+				// return $return;
 			}
 		}
 	}
