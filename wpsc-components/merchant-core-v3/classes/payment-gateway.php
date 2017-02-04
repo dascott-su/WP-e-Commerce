@@ -68,15 +68,17 @@ final class WPSC_Payment_Gateways {
 
 		if ( empty( self::$instances[ $gateway ] ) ) {
 
-			$meta = self::$gateways[ $gateway ];
+            if ( ! $meta ) {
+                $meta = self::$gateways[ $gateway ];
+            }
 
-			if ( ! file_exists( $meta['path'] ) ) {
-				WPSC_Payment_Gateways::flush_cache();
-			}
+            if ( ! file_exists( $meta['path'] ) ) {
+                WPSC_Payment_Gateways::flush_cache();
+            }
 
-			require_once( $meta['path'] );
+            require_once( $meta['path'] );
 
-			$class_name = $meta['class'];
+            $class_name = $meta['class'];
 
 			$options = array(
 				'http_client' => new WPSC_Payment_Gateway_HTTP(),
@@ -588,7 +590,11 @@ abstract class WPSC_Payment_Gateway {
 		return get_option( 'transact_url' );
 	}
 
-	public function get_shopping_cart_url() {
+	public function get_cart_url() {
+		$te = get_option( 'wpsc_get_active_theme_engine', '1.0' );
+
+		return '1.0' !== $te ? wpsc_get_cart_url() : get_option( 'shopping_cart_url' );
+
 		return get_option( 'shopping_cart_url' );
 	}
 
